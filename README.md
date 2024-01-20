@@ -1,105 +1,68 @@
-Chisel Project Template
+DL-Sort Generator
 =======================
+This repository contains the configurable dual-layer sorter (DL-Sort) RTL generator written in Chisel.
 
-You've done the [Chisel Bootcamp](https://github.com/freechipsproject/chisel-bootcamp), and now you
-are ready to start your own Chisel project.  The following procedure should get you started
-with a clean running [Chisel3](https://www.chisel-lang.org/) project.
+This work is proposed in the paper entitled "**DL-Sort, A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting**", which will be presented in the *International Symposium on Circuits and Systems 2024* (**ISCAS 2024**).
 
-## Make your own Chisel3 project
 
+## About
+DL-Sort is a configurable hardware sorter supporting fully-streaming with low latency and efficient resource usage 
+.
+We aim to provide efficient sorting acceleration for diverse FPGA-based and ASIC-based systems that requires fast, consistent, and resource-efficient sorting.
+
+The configurable parameters of the DL-Sort are as follows:
+| Name | Description |
+|-|-|
+|$E$ (Element count)    | The amount of data elements to be sorted. In this version, those must be power-of-2 ($2^n$). |
+|$P$ (Streaming width)  | The amount of parallel access. In this version, those must be power-of-2 ($2^n)$. <br> For example, if $P=4$, DL-sort can receive and transmit four data simultaneously. <br> This will considerably increases the performance when external data source can provide parallel streaming data. |
+|$w_D$ (Data bitwidth)  | Bitwidth of the data to be sorted. Usually 64, 32, 16, and 8. |
+|$w_T$ (Tag bitwidth)*   | Bitwidth of the tag. When tagging is enabled, each data automatically receive the own tag for indexing. <br> This feature is useful when the system requires low latency execution and only requires the indexes of the data. <br> As the tags have smaller size than data to be sorted, the external component can receive the sorted information faster. |
+
+\* Current version only supports enabling/disabling of tagging feature. When tagging is enabled, the $w_T$ is set to $log_2E$. This allows every data elements can have their own key.
+
+
+## Getting Started (Ubuntu Linux)
+Please beware that our primary platform is Ubuntu Linux. We have tested our work in MAC
 ### Dependencies
+#### RTL generation
+- JDK 8 or newer
+  - We recommend using openjdk 19.0.2.
+- SBT
+  - You can download it [here](https://www.scala-sbt.org/download.html).
+#### Simulation
+- Verilator 5.003
+  - You can see the installation manual [here](https://verilator.org/guide/latest/install.html).
+- GTKWave (recommended)
+  - You can simply install this using apt-get: ```apt install gtkwave```
 
-#### JDK 8 or newer
+### Generating SystemVerilog RTL with Chisel
+If you are new to Chisel and requires further information, please refer to [this](https://github.com/chipsalliance/chisel) repository.
 
-We recommend LTS releases Java 8 and Java 11. You can install the JDK as recommended by your operating system, or use the prebuilt binaries from [AdoptOpenJDK](https://adoptopenjdk.net/).
+To be started, you can simply use these codes in terminal to instantiate the DL-Sort.
 
-#### SBT or mill
+```bash
+git clone https://github.com/hyun-woo-oh/DL-Sort-Generator
 
-SBT is the most common built tool in the Scala community. You can download it [here](https://www.scala-sbt.org/download.html).  
-mill is another Scala/Java build tool without obscure DSL like SBT. You can download it [here](https://github.com/com-lihaoyi/mill/releases)
-
-### How to get started
-
-#### Create a repository from the template
-
-This repository is a Github template. You can create your own repository from it by clicking the green `Use this template` in the top right.
-Please leave `Include all branches` **unchecked**; checking it will pollute the history of your new repository.
-For more information, see ["Creating a repository from a template"](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
-
-#### Wait for the template cleanup workflow to complete
-
-After using the template to create your own blank project, please wait a minute or two for the `Template cleanup` workflow to run which will removes some template-specific stuff from the repository (like the LICENSE).
-Refresh the repository page in your browser until you see a 2nd commit by `actions-user` titled `Template cleanup`.
-
-
-#### Clone your repository
-
-Once you have created a repository from this template and the `Template cleanup` workflow has completed, you can click the green button to get a link for cloning your repository.
-Note that it is easiest to push to a repository if you set up SSH with Github, please see the [related documentation](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/connecting-to-github-with-ssh). SSH is required for pushing to a Github repository when using two-factor authentication.
-
-```sh
-git clone git@github.com:hyun-woo-oh/DL-Sort-Generator.git
 cd DL-Sort-Generator
+sbt compile && sbt "run 32 0 6 2" # Generate sorter with wD=32, tag disabled, log2(E)=6, log2(P)=2
 ```
+You will be able to find the generated RTL code in this relative path: "generated/DLSorter_32x64P4.sv"
 
-#### Set project organization and name in build.sbt
+### Simulating generated RTL
+If you are new to Verilator, please refer to [this](https://github.com/verilator/verilator) repository.
 
-The cleanup workflow will have attempted to provide sensible defaults for `ThisBuild / organization` and `name` in the `build.sbt`.
-Feel free to use your text editor of choice to change them as you see fit.
+We have included the simple simulation code based on Verilator 5.003.
 
-#### Clean up the README.md file
+The sample RTL is generated with the $w_D=32$, tag disabled, $E=64$, $P=4$ configuration.
+To run this code, you can simply execute these codes in terminal.
 
-Again, use you editor of choice to make the README specific to your project.
-
-#### Add a LICENSE file
-
-It is important to have a LICENSE for open source (or closed source) code.
-This template repository has the Unlicense in order to allow users to add any license they want to derivative code.
-The Unlicense is stripped when creating a repository from this template so that users do not accidentally unlicense their own work.
-
-For more information about a license, check out the [Github Docs](https://docs.github.com/en/free-pro-team@latest/github/building-a-strong-community/adding-a-license-to-a-repository).
-
-#### Commit your changes
-```sh
-git commit -m 'Starting DL-Sort-Generator'
-git push origin main
+```bash
+cd ..
+cd sim
+make
 ```
-
-### Did it work?
-
-You should now have a working Chisel3 project.
-
-You can run the included test with:
-```sh
-sbt test
+After execution, the waveform file (*.vcd) will be generated in this relative path: "log/wave.vcd"
+You can check waveform with other softwares such as **gtkwave**.
 ```
-
-Alternatively, if you use Mill:
-```sh
-mill DL-Sort-Generator.test
+gtkwave log/wave.vcd
 ```
-
-You should see a whole bunch of output that ends with something like the following lines
-```
-[info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0
-[info] All tests passed.
-[success] Total time: 5 s, completed Dec 16, 2020 12:18:44 PM
-```
-If you see the above then...
-
-### It worked!
-
-You are ready to go. We have a few recommended practices and things to do.
-
-* Use packages and following conventions for [structure](https://www.scala-sbt.org/1.x/docs/Directories.html) and [naming](http://docs.scala-lang.org/style/naming-conventions.html)
-* Package names should be clearly reflected in the testing hierarchy
-* Build tests for all your work
-* Read more about testing in SBT in the [SBT docs](https://www.scala-sbt.org/1.x/docs/Testing.html)
-* This template includes a [test dependency](https://www.scala-sbt.org/1.x/docs/Library-Dependencies.html#Per-configuration+dependencies) on [chiseltest](https://github.com/ucb-bar/chisel-testers2), this is a reasonable starting point for most tests
-  * You can remove this dependency in the build.sbt file if you want to
-* Change the name of your project in the build.sbt file
-* Change your README.md
-
-## Problems? Questions?
-
-Check out the [Chisel Users Community](https://www.chisel-lang.org/community.html) page for links to get in contact!

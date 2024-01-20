@@ -7,24 +7,25 @@ import scalalib._
 // support BSP
 import mill.bsp._
 
-object DL-Sort-Generator extends SbtModule { m =>
+object %NAME% extends SbtModule { m =>
   override def millSourcePath = os.pwd
-  override def scalaVersion = "2.13.12"
+  override def scalaVersion = "2.13.8"
   override def scalacOptions = Seq(
     "-language:reflectiveCalls",
     "-deprecation",
     "-feature",
     "-Xcheckinit",
+    "-P:chiselplugin:genBundleElements"
   )
   override def ivyDeps = Agg(
-    ivy"org.chipsalliance::chisel:5.1.0",
+    ivy"edu.berkeley.cs::chisel3:3.5.4",
   )
   override def scalacPluginIvyDeps = Agg(
-    ivy"org.chipsalliance:::chisel-plugin:5.1.0",
+    ivy"edu.berkeley.cs:::chisel3-plugin:3.5.4",
   )
-  object test extends SbtModuleTests with TestModule.ScalaTest {
+  object test extends Tests with ScalaTest {
     override def ivyDeps = m.ivyDeps() ++ Agg(
-      ivy"edu.berkeley.cs::chiseltest:5.0.2"
+      ivy"edu.berkeley.cs::chiseltest:0.5.4"
     )
   }
 }
