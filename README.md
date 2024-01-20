@@ -30,7 +30,7 @@ Please beware that our primary platform is Ubuntu Linux. We have tested our work
 - SBT
   - You can download it [here](https://www.scala-sbt.org/download.html).
 #### Simulation
-- Verilator 5.003
+- Verilator 5.009
   - You can see the installation manual [here](https://verilator.org/guide/latest/install.html).
 - GTKWave (recommended)
   - You can simply install this using apt-get: ```apt install gtkwave```
