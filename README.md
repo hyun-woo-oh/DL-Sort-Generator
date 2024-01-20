@@ -2,31 +2,31 @@ DL-Sort Generator
 =======================
 This repository contains the configurable dual-layer sorter (DL-Sort) RTL generator written in Chisel.
 
-This work is proposed in the paper entitled "**DL-Sort, A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting**", which will be presented in the *International Symposium on Circuits and Systems 2024* (**ISCAS 2024**).
+This work is proposed in the paper entitled "**DL-Sort: A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting**", which will be presented in the *International Symposium on Circuits and Systems 2024* (**ISCAS 2024**).
 
 
 ## About
 DL-Sort is a configurable hardware sorter supporting fully-streaming with low latency and efficient resource usage 
 .
-We aim to provide efficient sorting acceleration for diverse FPGA-based and ASIC-based systems that requires fast, consistent, and resource-efficient sorting.
+We aim to provide efficient sorting acceleration for diverse FPGA-based and ASIC-based systems that require fast, consistent, and resource-efficient sorting.
 
 The configurable parameters of the DL-Sort are as follows:
 | Name | Description |
 |-|-|
-|$E$ (Element count)    | The amount of data elements to be sorted. In this version, those must be power-of-2 ($2^n$). |
-|$P$ (Streaming width)  | The amount of parallel access. In this version, those must be power-of-2 ($2^n)$. <br> For example, if $P=4$, DL-sort can receive and transmit four data simultaneously. <br> This will considerably increases the performance when external data source can provide parallel streaming data. |
-|$w_D$ (Data bitwidth)  | Bitwidth of the data to be sorted. Usually 64, 32, 16, and 8. |
-|$w_T$ (Tag bitwidth)*   | Bitwidth of the tag. When tagging is enabled, each data automatically receive the own tag for indexing. <br> This feature is useful when the system requires low latency execution and only requires the indexes of the data. <br> As the tags have smaller size than data to be sorted, the external component can receive the sorted information faster. |
+|$E$| The amount of data elements to be sorted. In this version, those must be power-of-2 ($2^n$). |
+|$P$| The amount of parallel write/read accesses. In this version, those must be power-of-2 ($2^n)$. <br> For example, if $P=4$, DL-sort can receive and transmit four data simultaneously. <br> This will considerably increase the performance when external data sources can provide parallel streaming data. |
+|$w_D$ | Bitwidth of the data to be sorted. Usually 64, 32, 16, and 8. |
+|$w_T$*| Bitwidth of the tag. When tagging is enabled, each data automatically receives its own tag for indexing. <br> This feature is useful when the system requires low latency execution and only requires the indexes of the data. <br> As the tags have a smaller size than the data to be sorted, the external component can receive the sorted information faster. |
 
-\* Current version only supports enabling/disabling of tagging feature. When tagging is enabled, the $w_T$ is set to $log_2E$. This allows every data elements can have their own key.
+\* The current version only supports enabling/disabling the tagging feature. When tagging is enabled, the $w_T$ is set to $log_2E$. This allows every data element to have its own key.
 
 
 ## Getting Started (Ubuntu Linux)
-Please beware that our primary platform is Ubuntu Linux. We have tested our work in MAC
+Please beware that our primary platform is Ubuntu Linux. We have tested our work in the Apple Silicon MacOS, but running this on another platform may not work.
 ### Dependencies
 #### RTL generation
 - JDK 8 or newer
-  - We recommend using openjdk 19.0.2.
+  - We recommend using OpenJDK 19.0.2.
 - SBT
   - You can download it [here](https://www.scala-sbt.org/download.html).
 #### Simulation
@@ -36,9 +36,9 @@ Please beware that our primary platform is Ubuntu Linux. We have tested our work
   - You can simply install this using apt-get: ```apt install gtkwave```
 
 ### Generating SystemVerilog RTL with Chisel
-If you are new to Chisel and requires further information, please refer to [this](https://github.com/chipsalliance/chisel) repository.
+If you are new to Chisel and require further information, please refer to [this](https://github.com/chipsalliance/chisel) repository.
 
-To be started, you can simply use these codes in terminal to instantiate the DL-Sort.
+To start, you can simply use these codes in the terminal to instantiate the DL-Sort.
 
 ```bash
 git clone https://github.com/hyun-woo-oh/DL-Sort-Generator
@@ -54,7 +54,7 @@ If you are new to Verilator, please refer to [this](https://github.com/verilator
 We have included the simple simulation code based on Verilator 5.003.
 
 The sample RTL is generated with the $w_D=32$, tag disabled, $E=64$, $P=4$ configuration.
-To run this code, you can simply execute these codes in terminal.
+To run this code, you can simply execute these codes in the terminal.
 
 ```bash
 cd ..
@@ -62,7 +62,7 @@ cd sim
 make
 ```
 After execution, the waveform file (*.vcd) will be generated in this relative path: "log/wave.vcd"
-You can check waveform with other softwares such as **gtkwave**.
+You can check the generated waveform with other software such as **gtkwave**.
 ```
 gtkwave log/wave.vcd
 ```
