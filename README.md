@@ -51,7 +51,7 @@ You will be able to find the generated RTL code in this relative path: "generate
 ### Simulating generated RTL
 If you are new to Verilator, please refer to [this](https://github.com/verilator/verilator) repository.
 
-We have included the simple simulation code based on Verilator 5.003.
+We have included the simple simulation code based on Verilator 5.009.
 
 The sample RTL is generated with the $w_D=32$, tag disabled, $E=64$, $P=4$ configuration.
 To run this code, you can simply execute these codes in the terminal.
