@@ -13,8 +13,8 @@ We aim to provide efficient sorting acceleration for diverse FPGA-based and ASIC
 The configurable parameters of the DL-Sort are as follows:
 | Name | Description |
 |-|-|
-|$E$| The amount of data elements to be sorted. In this version, those must be power-of-2 ($2^n$). |
-|$P$| The amount of parallel write/read accesses. In this version, those must be power-of-2 ($2^n)$. <br> For example, if $P=4$, DL-sort can receive and transmit four data simultaneously. <br> This will considerably increase the performance when external data sources can provide parallel streaming data. |
+|$E$| The amount of data elements to be sorted. In this version, it must be power-of-2 ($2^n$). |
+|$P$| The amount of parallel write/read accesses. In this version, it must be power-of-2 ($2^n)$. <br> For example, if $P=4$, DL-sort can receive and transmit four data simultaneously. <br> This will considerably increase the performance when external data sources can provide parallel streaming data. |
 |$w_D$ | Bitwidth of the data to be sorted. Usually 64, 32, 16, and 8. |
 |$w_T$*| Bitwidth of the tag. When tagging is enabled, each data automatically receives its own tag for indexing. <br> This feature is useful when the system requires low latency execution and only requires the indexes of the data. <br> As the tags have a smaller size than the data to be sorted, the external component can receive the sorted information faster. |
 
