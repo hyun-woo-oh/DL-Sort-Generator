@@ -2,10 +2,10 @@ DL-Sort Generator
 =======================
 This repository contains the configurable dual-layer sorter (DL-Sort) RTL generator written in Chisel.
 
-This work is proposed in the paper entitled "**DL-Sort: A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting**", which will be presented at the *International Symposium on Circuits and Systems 2024* (**ISCAS 2024**).
+This work is proposed in the paper ["**DL-Sort: A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting**"](https://ieeexplore.ieee.org/document/10472626), which was presented at the International Symposium on Circuits and Systems 2024 (**ISCAS 2024**).
 
 Our paper has been invited to **IEEE Transactions on Circuits and Systems II: Express Briefs** Special Issue on ISCAS 2024!
-If you intend to use our hardware sorter in your research, please kindly cite this paper using the text below.
+If you intend to use our hardware sorter in your research, please cite this paper using the text below.
 
 ``` Plain Text
 H. W. Oh, J. Park and S. E. Lee, "DL-Sort: A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting," in IEEE Transactions on Circuits and Systems II: Express Briefs, doi: 10.1109/TCSII.2024.3377255.
@@ -18,9 +18,10 @@ Here's the BibTeX Code.
   journal={IEEE Transactions on Circuits and Systems II: Express Briefs}, 
   title={DL-Sort: A Hybrid Approach to Scalable Hardware-Accelerated Fully-Streaming Sorting}, 
   year={2024},
-  volume={},
-  number={},
-  pages={1-5},
+  volume={71},
+  number={5},
+  pages={2549-2553},
+  keywords={Sorting;Throughput;Merging;Mathematical models;Generators;Field programmable gate arrays;Circuits and systems;Sorting network;hardware acceleration;scalable architecture;bitonic sort;energy-efficient computing},
   doi={10.1109/TCSII.2024.3377255}}
 ```
 
