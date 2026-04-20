@@ -88,3 +88,6 @@ You can check the generated waveform with other software such as **gtkwave**.
 ```
 gtkwave log/wave.vcd
 ```
+
+### Note
+In the paper, [13] was used as the closest available end-to-end hardware sorting baseline in our evaluation, while [13] targets a broader multi-pass merge-sort architecture for large datasets, whereas DL-Sort is optimized for smaller arrays requiring single-pass, fully-streaming, and low-latency operation.
